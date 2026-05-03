@@ -1,0 +1,101 @@
+# @gzl10/ts-helpers
+
+[![npm version](https://img.shields.io/npm/v/@gzl10/ts-helpers.svg)](https://www.npmjs.com/package/@gzl10/ts-helpers)
+[![Pipeline Status](https://gitlab.gzl10.com/oss/ts-helpers/badges/main/pipeline.svg)](https://gitlab.gzl10.com/oss/ts-helpers/-/pipelines)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Universal TypeScript utility library for modern JavaScript environments.
+
+## Features
+
+- **Flat API**: Direct access to 150+ functions without nesting
+- **Universal**: Works in Node.js, browsers, Web Workers, and all bundlers
+- **Tree-shakeable**: Import only what you need for minimal bundles
+- **TypeScript-first**: Full type inference and strict mode
+- **Spanish validation**: NIF, NIE, CIF, IBAN, phone numbers, and more
+
+## Installation
+
+```bash
+pnpm add @gzl10/ts-helpers
+# or
+npm install @gzl10/ts-helpers
+```
+
+## Usage
+
+### Flat API (Recommended)
+
+```typescript
+import g from '@gzl10/ts-helpers'
+
+// Validation
+g.validateNIF('12345678Z')
+g.generateSpanishNIF()
+
+// Strings
+g.toCamelCase('hello-world')
+g.sanitizeString('<script>alert("xss")</script>')
+
+// Math & Finance
+g.calculateNPV(0.1, [-1000, 300, 400, 500])
+g.calculateIRR([-1000, 300, 400, 500])
+
+// Async
+g.sleep(1000)
+g.runBatch(items, processFn, { concurrency: 5 })
+
+// Data
+g.exportData(data, 'file.csv')
+g.detectUniversalFormat('report.xlsx')
+
+// Objects
+g.deepEqual(obj1, obj2)
+g.setDeepValue(config, 'database.host', 'localhost')
+
+// Dates
+g.formatNow('DD/MM/YYYY')
+g.addDays(new Date(), 7)
+
+// Environment
+g.isDevelopment()
+g.isProduction()
+g.detectProtocol(req)
+```
+
+### Tree-shaking Imports
+
+```typescript
+import { validateNIF, generateSpanishNIF } from '@gzl10/ts-helpers/validation'
+import { exportData, importData } from '@gzl10/ts-helpers/data'
+import { toCamelCase, sanitizeString } from '@gzl10/ts-helpers/strings'
+import { sleep, runBatch } from '@gzl10/ts-helpers/async'
+import { calculateNPV, calculateIRR } from '@gzl10/ts-helpers/math'
+import { formatNow, addDays } from '@gzl10/ts-helpers/dates'
+import { deepEqual, setDeepValue } from '@gzl10/ts-helpers/objects'
+import { isDevelopment, isProduction } from '@gzl10/ts-helpers/environment'
+```
+
+## Documentation
+
+- **[API Reference](https://gitlab.gzl10.com/oss/ts-helpers/-/blob/main/USAGE_GUIDE.md)** -
+  Complete function list
+- **[Changelog](https://gitlab.gzl10.com/oss/ts-helpers/-/blob/main/CHANGELOG.md)** -
+  Version history
+
+## Development
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+pnpm lint
+```
+
+## Support
+
+<a href="https://www.buymeacoffee.com/gzl10g" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+## License
+
+MIT © [Gonzalo Díez](mailto:gonzalo@gzl10.com)
