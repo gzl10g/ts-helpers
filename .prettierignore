@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+*.log
+*.lock
+*.tsbuildinfo
+.git
+.vscode
+.idea

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Build targets
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node10", // Legacy para compatibilidad máxima
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+
+    // Output configuration
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    // Module resolution
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Type checking
+    "strict": true,
+    "noImplicitAny": false, // Para compatibilidad con re-exportaciones
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false, // Para flexibilidad en utilidades
+    "noImplicitOverride": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+
+    // Advanced
+    "skipLibCheck": true,
+    "pretty": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./tsconfig.tsbuildinfo",
+
+    // Emit
+    "removeComments": false, // Mantener JSDoc comments
+    "importHelpers": true, // Usar tslib para helpers
+    "downlevelIteration": true,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/tests/**/*",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "node_modules",
+    "dist",
+    "coverage",
+    "docs"
+  ]
+}
