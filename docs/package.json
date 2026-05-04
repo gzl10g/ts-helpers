@@ -1,0 +1,24 @@
+{
+  "name": "@gzl10/ts-helpers-docs",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "catalog": "tsx scripts/build-catalog.ts",
+    "prebuild": "tsx scripts/build-catalog.ts",
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "@vueuse/core": "^12.0.0",
+    "monaco-editor": "^0.55.1",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitepress": "^1.6.0",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@gzl10/ts-helpers": "workspace:*"
+  }
+}
