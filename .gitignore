@@ -1,0 +1,28 @@
+node_modules
+dist
+coverage
+test-results
+tsconfig.tsbuildinfo
+yarn-error.log
+
+# Archivos temporales de tests
+tests/test-files/
+.claude/
+
+# Archivos de prueba y temporales generados durante desarrollo
+*.csv
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!jest.config.js
+!docs/package.json
+!docs/package-lock.json
+
+# Configuraciones temporales de servidor
+server.yml
+config.yaml
+
+# Scripts de desarrollo temporal (mantener solo los esenciales)
+# scripts/ se mantiene porque contiene utilidades importantes
+.worktrees/

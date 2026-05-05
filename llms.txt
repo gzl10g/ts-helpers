@@ -1,0 +1,179 @@
+# @gzl10/ts-helpers
+
+Universal TypeScript utility library with 170+ functions for validation, strings, dates, math, async operations, data import/export, collection helpers, error handling, and utility types. Works in Node.js, browsers, Web Workers, and all bundlers.
+
+Tree-shakeable flat API with full TypeScript support and Spanish validation (NIF, NIE, CIF, IBAN, phone numbers). Build ultrafast with tsup (~40ms), 700+ tests, 100% JSDoc documentation.
+
+## Modules
+
+- `@gzl10/ts-helpers` — Flat API namespace (default export, all 160+ functions)
+- `@gzl10/ts-helpers/validation` — Spanish validators and generators (NIF, NIE, CIF, IBAN, phone, postal codes, email, URLs)
+- `@gzl10/ts-helpers/strings` — String transformation (camelCase, slugify, sanitize, truncate, pad, uppercase/lowercase variants)
+- `@gzl10/ts-helpers/objects` — Deep equality, diff, CRC32, array utils, deep value getters/setters, lodash-lite collection helpers (pick, omit, groupBy, keyBy, chunk, zip, flatten, partition, uniq, uniqBy, mapValues, filterValues, sortBy)
+- `@gzl10/ts-helpers/dates` — Date manipulation (format, parse, add/subtract days/months/years with dayjs)
+- `@gzl10/ts-helpers/math` — Statistics, financial math (NPV, IRR, percentile, median), ML utilities
+- `@gzl10/ts-helpers/async` — Sleep, wait, batch processing, dynamic operations
+- `@gzl10/ts-helpers/data` — Universal import/export (CSV, JSON, 80+ format detection)
+- `@gzl10/ts-helpers/environment` — Environment detection (Node/Browser, production/development, protocol, HTTP methods)
+- `@gzl10/ts-helpers/number` — Numeric utilities (format, parse, boundaries, validate)
+- `@gzl10/ts-helpers/errors` — Custom error types
+- `@gzl10/ts-helpers/csv` — CSV import/export with PapaParse
+- `@gzl10/ts-helpers/json` — JSON import/export
+- `@gzl10/ts-helpers/tree` — ASCII tree rendering
+- `@gzl10/ts-helpers/result` — Error handling without throws: Result<T,E>, tryCatch, tryCatchAsync, assertNever
+- `@gzl10/ts-helpers` (types) — Utility types: DeepPartial, Brand, Opaque, Nullable, NonNullableDeep, RequireAtLeastOne (zero runtime)
+- `@gzl10/ts-helpers/validators` — Advanced validators (luhn, checksum, format-specific)
+
+## Key Functions by Category
+
+### Validation & Generators
+
+- `validateNIF(nif: string): boolean` — Validate Spanish NIF format and algorithm
+- `validateCIF(cif: string): boolean` — Validate Spanish company ID (CIF)
+- `generateSpanishNIF(gender?: 'M' | 'F'): string` — Generate valid random Spanish NIF
+- `validateIBAN(iban: string): boolean` — Validate International Bank Account Number
+- `validateEmail(email: string): boolean` — RFC 5322 compliant email validation
+- `validateSpanishPhoneNumber(phone: string): boolean` — Validate Spanish phone format
+- `validateURL(url: string): boolean` — Validate HTTP/HTTPS URLs
+
+### Strings
+
+- `toCamelCase(str: string): string` — Convert to camelCase (hello-world → helloWorld)
+- `slugify(str: string): string` — Create URL-safe slugs
+- `sanitizeString(str: string): string` — Remove HTML/script tags, prevent XSS
+- `truncateString(str: string, maxLength: number, suffix?: string): string` — Truncate with ellipsis
+- `toTitleCase(str: string): string` — Capitalize each word
+- `removeWhitespace(str: string): string` — Remove all whitespace
+- `padString(str: string, length: number, fill?: string): string` — Pad left/right
+
+### Math & Finance
+
+- `calculateNPV(rate: number, cashFlows: number[]): number` — Net Present Value for investment analysis
+- `calculateIRR(cashFlows: number[]): number` — Internal Rate of Return
+- `calculateMedian(numbers: number[]): number` — Median with NaN/Infinity handling
+- `calculatePercentile(numbers: number[], p: number): number` — Nth percentile
+- `calculateStandardDeviation(numbers: number[]): number` — Population standard deviation
+- `calculateMean(numbers: number[]): number` — Arithmetic mean with edge case handling
+- `isWithinBounds(value: number, min: number, max: number): boolean` — Check numeric range
+
+### Objects & Arrays
+
+- `deepEqual<T>(a: T, b: T): boolean` — Deep equality comparison (ignores function references)
+- `setDeepValue(obj: object, path: string, value: any): void` — Set nested properties (database.host → obj.database.host)
+- `getDeepValue(obj: object, path: string): any` — Get nested properties with safe access
+- `calculateCRC32(data: string): number` — CRC32 checksum for data integrity
+- `uniq<T>(arr: T[]): T[]` — Remove duplicates preserving order
+- `flatten<T, D extends number = 1>(arr: T[], depth?: D): FlatArray<T[], D>[]` — Flatten nested arrays to given depth
+- `pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>` — Select specific properties from an object
+- `omit<T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>` — Create object excluding specified keys
+- `groupBy<T>(arr: T[], iteratee: keyof T | ((item: T) => string | number)): Record<string, T[]>` — Group array elements by key or function
+- `keyBy<T>(arr: T[], iteratee: keyof T | ((item: T) => string | number)): Record<string, T>` — Index array elements by key or function
+- `chunk<T>(arr: T[], size: number): T[][]` — Split array into consecutive chunks of given size
+- `zip<T>(...arrays: T[][]): T[][]` — Zip multiple arrays together element-wise
+- `partition<T>(arr: T[], predicate: (item: T) => boolean): [T[], T[]]` — Split array into two groups based on predicate
+- `uniqBy<T>(arr: T[], iteratee: keyof T | ((item: T) => unknown)): T[]` — Remove duplicates by key or function
+- `mapValues<K extends string, T, U>(obj: Record<K, T>, fn: (value: T, key: K) => U): Record<K, U>` — Transform object values with a function
+- `filterValues<K extends string, T>(obj: Record<K, T>, fn: (value: T, key: K) => boolean): Partial<Record<K, T>>` — Filter object entries by value predicate
+- `sortBy<T>(arr: T[], ...iteratees: Array<keyof T | ((item: T) => unknown)>): T[]` — Sort array by one or more keys or functions
+
+### Dates
+
+- `formatNow(format: string): string` — Format current date (DD/MM/YYYY, HH:mm:ss, etc.)
+- `format(date: Date, format: string): string` — Format any date with dayjs patterns
+- `addDays(date: Date, days: number): Date` — Add/subtract days
+- `addMonths(date: Date, months: number): Date` — Add/subtract months
+- `isValidDate(date: any): boolean` — Validate date objects and ISO strings
+- `getDayOfWeek(date: Date): string` — Get day name (Monday, Tuesday, etc.)
+- `getWeekNumber(date: Date): number` — ISO 8601 week number
+
+### Async
+
+- `sleep(ms: number): Promise<void>` — Async delay for throttling/pacing
+- `runBatch<T>(items: T[], fn: (item: T) => Promise<any>, options?: BatchOptions): Promise<void>` — Process concurrently with concurrency control
+- `wait(condition: () => boolean, timeout?: number): Promise<void>` — Wait until condition is true
+- `dynamicImport(path: string): Promise<any>` — Universal dynamic imports (Node/Browser/Workers)
+
+### Error Handling (Result / tryCatch)
+
+- `tryCatch<T>(fn: () => T): readonly [Error, undefined] | readonly [undefined, T]` — Sync try/catch returning Go-style error-first tuple. Rejects Promise-returning functions at compile time.
+- `tryCatchAsync<T>(fn: () => Promise<T>): Promise<readonly [Error, undefined] | readonly [undefined, T]>` — Async variant of tryCatch
+- `ok<T>(value: T): Ok<T>` — Create a successful Result (`{ ok: true, value }`)
+- `err<E>(error: E): Err<E>` — Create a failed Result (`{ ok: false, error }`)
+- `isOk<T, E>(r: Result<T, E>): r is Ok<T>` — Type guard for successful Result; provides automatic narrowing
+- `isErr<T, E>(r: Result<T, E>): r is Err<E>` — Type guard for failed Result; provides automatic narrowing
+- `assertNever(value: never, message?: string): never` — Exhaustiveness check for switch/if-else; throws TsHelpersError with INVALID_OPERATION at runtime
+
+### Utility Types (zero runtime)
+
+- `DeepPartial<T>` — Makes all nested properties optional; handles arrays correctly
+- `Brand<T, B extends string>` — Soft nominal typing via `__brand` property tag
+- `Opaque<T, K extends string>` — Hard nominal typing via `unique symbol`; different K values are structurally incompatible
+- `RequireAtLeastOne<T>` — Object type where at least one of the optional properties must be present
+- `Nullable<T>` — `T | null`
+- `NonNullableDeep<T>` — Removes `null | undefined` recursively; handles arrays correctly
+
+### Environment Detection
+
+- `isDevelopment(): boolean` — Check if running in development mode (v4.2.0+ excludes tests, use `isNonProduction()`)
+- `isProduction(): boolean` — Check if process.env.NODE_ENV === 'production'
+- `isTest(): boolean` — Check if running under Vitest/Jest
+- `isNonProduction(): boolean` — Check if NOT production (dev, test, staging)
+- `isNode: boolean` — Constant flag for Node.js runtime
+- `isBrowser: boolean` — Constant flag for browser runtime
+- `detectProtocol(req?: any): 'http' | 'https'` — Detect protocol from request or environment
+- `isHTTPMethod(method: string): boolean` — Validate HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)
+
+### Data Import/Export
+
+- `exportData(data: any[], format: 'csv' | 'json', options?: ExportOptions): Blob` — Export to CSV/JSON
+- `importData(file: File, options?: ImportOptions): Promise<any[]>` — Import from CSV/JSON
+- `detectUniversalFormat(filename: string): string` — Detect 80+ file formats (xlsx, pdf, zip, etc.)
+- `validateJSON(jsonString: string): boolean` — Check valid JSON syntax
+
+## Development Commands
+
+```bash
+pnpm install              # Install dependencies
+pnpm run build            # Build CJS, ESM, DTS (~40ms)
+pnpm test                 # Run 600+ Vitest tests
+pnpm run lint             # ESLint with auto-fix
+pnpm run format           # Prettier format
+pnpm run quality          # format + lint + test + build
+pnpm run quality:check    # Verification in CI (no changes)
+pnpm run typecheck        # TypeScript check (no emit)
+pnpm run clean            # Clean dist and node_modules
+pnpm run dev              # Watch mode
+pnpm run release:prepare  # Create changeset
+pnpm run release:version  # Update version + CHANGELOG
+```
+
+## Conventions
+
+- **Code Language**: English (functions, variables, comments)
+- **Docs Language**: Spanish (JSDoc, README, CHANGELOG, guides)
+- **Commits**: Spanish with conventional format (feat:, fix:, docs:, chore:)
+- **API Style**: Flat exports from module root (no nested namespaces)
+- **Type Safety**: TypeScript strict mode, full inference
+- **Testing**: Vitest with >80% coverage target
+- **Tree-shaking**: Import only what you use (e.g., `import { validateNIF } from '@gzl10/ts-helpers/validation'`)
+- **Environment**: All functions work in Node.js, browsers, and Web Workers with proper guards
+
+## When NOT to Use
+
+Before implementing these yourself, check if this library already solves it:
+
+- **Validation**: Before writing NIF/NIE/CIF/IBAN validators, use `validateNIF()`, `validateIBAN()`, etc. — they handle edge cases, checksums, and regional variants
+- **Spanish Validators**: Don't reimplementing phone validation, postal codes, or Spanish document IDs — use `isValidSpanishPhone()`, `validatePostalCode()`, `validateNIE()`
+- **String Transforms**: Don't write camelCase/slug converters — use `toCamelCase()`, `slugify()`, `sanitizeString()`, `truncateString()`
+- **Async Utilities**: Before implementing sleep/retry/batch logic, use `sleep()`, `runBatch()`, `wait()` — they handle edge cases
+- **Date Manipulation**: Don't use plain `Date` for add/subtract operations — use `addDays()`, `addMonths()`, `formatNow()` with dayjs underneath
+- **Financial Math**: For NPV/IRR calculations, use `calculateNPV()`, `calculateIRR()` — they handle complex algorithms
+- **Statistics**: For median/percentile/standard deviation, use `calculateMedian()`, `calculatePercentile()`, `calculateStandardDeviation()`
+- **Deep Operations**: Don't implement deep equality or path-based getters/setters — use `deepEqual()`, `getDeepValue()`, `setDeepValue()`
+- **Data Import/Export**: Before parsing CSV/JSON/Excel files, use `importData()`, `exportData()`, `detectUniversalFormat()` — universal format detection
+- **Environment Detection**: Don't check `process.env` directly — use `isDevelopment()`, `isProduction()`, `isTest()`, `isNonProduction()` for safety
+- **Array Utils**: Before implementing unique/flatten/sort/group/partition, use `uniq()`, `flatten()`, `sortBy()`, `groupBy()`, `partition()` — handle edge cases properly. Also `pick()`, `omit()`, `mapValues()`, `filterValues()` for object transforms
+- **Error Handling**: Before writing try/catch boilerplate, use `tryCatch()` / `tryCatchAsync()` for Go-style tuples or `ok()`/`err()`/`isOk()`/`isErr()` for discriminated Result types. Use `assertNever()` for exhaustiveness checks in switch statements.
+- **TypeScript Utility Types**: Before redefining `DeepPartial`, `Brand`, `Opaque`, `Nullable`, `NonNullableDeep`, or `RequireAtLeastOne` in your project, import them from `@gzl10/ts-helpers`. They are type-only (zero runtime cost).
+
+If you're writing a utility function that looks like what's already here, it probably exists. Check the USAGE_GUIDE.md or source code first.
